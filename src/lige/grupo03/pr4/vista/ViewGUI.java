@@ -105,17 +105,31 @@ public class ViewGUI extends JFrame implements Observer{
 		
 		switch (evento.getType()) {
 		case EVENTO_PARTIDA_INICIADA:
-			EventoPartidaIniciada evNuevaPartida = new EventoPartidaIniciada(TipoEvento.EVENTO_PARTIDA_INICIADA);
-			
-			
+			EventoPartidaIniciada evNuevaPartida = new EventoPartidaIniciada(TipoEvento.EVENTO_PARTIDA_INICIADA,puntuacion,vida,inventarioJugador,habitacionActual);
+				
+			break;
+		case EVENTO_PARTIDA_FINALIZADA:
+		
+			break;
+		case EVENTO_MOVIMIENTO_REALIZADO:
 			
 			break;
+		case EVENTO_OBJETO_COGIDO:
+			
+			break;
+			
+		case EVENTO_OBJETO_USADO:
+			
+			break;
+			
+		case EVENTO_ERROR:
+			
+			break;
+			
 		case EVENTO_GO:
 			
 			break;
-		case EVENTO_USAR:
-			
-			break;
+		
 		default:
 			break;
 		}
