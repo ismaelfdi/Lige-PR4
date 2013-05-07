@@ -1,0 +1,34 @@
+INSTRUCCIONES
+=============
+OBJETIVO: El objetivo del juego es ir avanzando desde la habitacion de partida
+	  hasta encontrar una habitacion de salida, se ira avanzando mediante las
+	  distintas opciones del panel de acciones.
+
+MENU:
+=====
+	  Contiene dos opciones:
+	  Salir: que te permitirá salir del juego.
+	  Instrucciones: Que es donde estas ahora mismo.
+
+PANEL DE ACCIONES:
+=================	
+	  Coger:  Te permite coger cualquier objeto que este en la habitacion actual.
+	  Soltar: Te permite soltar cualquier objeto de tu inventario en la habitacion                   actual.
+	  Ir:     Te permite moverte en la direccion que selecciones
+          Usar:   Te permitira USAR cualquier objeto de tu inventario.
+          Mirar:  Te permitira revisar los objetos de tu inventario o un objeto en concreto.
+
+PANEL INVENTARIO JUGADOR:
+========================
+	  En este panel se mostrara los objetos que has ido cogiendo de las diversas
+	  habitaciones por las cuales has pasado.
+
+MAPA DE HABITACIONES:
+====================
+	  Aqui se mostrara la distribucion de las habitaciones activas, que son aquellas           	  habitaciones por las cuales has ido pasando, aquellas habitaciones por las que
+	  aun no has pasado no mostraran nada.
+
+PANEL DE INFORMACION DE HABITACION:
+==================================
+	  Aqui se mostrar toda la informacion referente a la habitacion en la cual nos 
+	  encontramos.
