@@ -6,13 +6,21 @@ import lige.grupo03.pr4.modelo.Room;
 
 public class EventoObjetoCogido extends Evento{
 
-	Room habitacion;
-	Lista inventarioJugador;
+	private Room habitacion;
+	private Lista inventarioJugador;
 	
-	public EventoObjetoCogido(TipoEvento tipo, Room habitacion, Lista inventarioJugador) {
-		super(tipo);
+	public EventoObjetoCogido(Room habitacion, Lista inventarioJugador) {
+		super(TipoEvento.EVENTO_OBJETO_COGIDO);
 		this.habitacion = habitacion;
 		this.inventarioJugador = inventarioJugador;
+	}
+	
+	public Room getHabitacion(){
+		return habitacion;
+	}
+	
+	public Lista getInventarioJugador(){
+		return inventarioJugador;
 	}
 
 }

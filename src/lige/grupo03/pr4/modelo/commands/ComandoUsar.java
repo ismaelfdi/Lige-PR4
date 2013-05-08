@@ -5,6 +5,8 @@ package lige.grupo03.pr4.modelo.commands;
 
 import lige.grupo03.pr4.VerbCommands;
 import lige.grupo03.pr4.modelo.Game;
+import lige.grupo03.pr4.modelo.eventos.Evento;
+import lige.grupo03.pr4.modelo.eventos.EventoError;
 
 /**
  * Clase que representa el Comando USAR
@@ -45,11 +47,9 @@ public class ComandoUsar extends Comando{
 	 * Procedimiento especifico del Comando USAR
 	 * 
 	 */
-	/*
 	@Override
-	public boolean ejecutar() {
-		juego.usarObjeto(id);
-		return false;
+	public Evento execute() {
+		// TODO Auto-generated method stub
+		return new EventoError("Error en el proceso");
 	}
-	*/
 }

@@ -5,7 +5,10 @@ package lige.grupo03.pr4.modelo.commands;
 
 import lige.grupo03.pr4.Directions;
 import lige.grupo03.pr4.VerbCommands;
+import lige.grupo03.pr4.modelo.Door;
 import lige.grupo03.pr4.modelo.Game;
+import lige.grupo03.pr4.modelo.eventos.Evento;
+import lige.grupo03.pr4.modelo.eventos.EventoError;
 
 
 /**
@@ -60,5 +63,12 @@ public class ComandoIr extends Comando{
 		}
 	}
 	*/
+	@Override
+	public Evento execute() {
+		
+		Evento evento = null;
+		Door puerta = juego.getDoor(direccion);
+		return evento;
+	}
 
 }

@@ -1,6 +1,9 @@
 package lige.grupo03.pr4.control;
 
+import lige.grupo03.pr4.Directions;
 import lige.grupo03.pr4.modelo.Game;
+import lige.grupo03.pr4.modelo.commands.ComandoIr;
+import lige.grupo03.pr4.modelo.commands.Command;
 
 public class Controller {
 	
@@ -16,8 +19,13 @@ public class Controller {
 	}
 
 
-	public void solicitaMostrarInstrucciones() {
-		game.mostrarInstrucciones();
+	public void go(Directions direccion) {
+		
+		ComandoIr comandoIr = new ComandoIr(game, direccion);
+		game.executeCommand(comandoIr);
+		
 	}
+
+
 
 }

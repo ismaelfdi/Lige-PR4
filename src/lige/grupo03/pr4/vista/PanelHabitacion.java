@@ -7,6 +7,8 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 
+import lige.grupo03.pr4.modelo.Room;
+
 /**
  * Clase que representa el panel de habitacines de la GUI
  * 
@@ -19,18 +21,20 @@ public class PanelHabitacion extends JPanel{
 	
 	/*Atributo que representa l area donde se escribira la informacion de la habitacion*/
 	private JTextArea informacion;
-	
+	private Room habitacion;
 	/**
 	 * Constructor por defecto
 	 */
-	public PanelHabitacion(){
+	public PanelHabitacion(Room habitacion){
 		super();
+		this.habitacion = habitacion;
 		inicializar();
 	}
 	
 	private void inicializar(){
 		Border border = BorderFactory.createTitledBorder("Habitación");
 		informacion = new JTextArea(6,106);
+		informacion.setText(habitacion.toString());
 		informacion.setToolTipText("Aqui se muestra la informacion de la habitacion seleccionada");
 		
 		JScrollPane pane = new JScrollPane(informacion);

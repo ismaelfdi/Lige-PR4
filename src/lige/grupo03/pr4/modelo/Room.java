@@ -11,6 +11,7 @@ Clase que representa una habitación indicando una descripción y si es una salida
 @version 1.0
 */
 public class Room {
+	
 	/*Descripcion de la habitacion*/
 	private String descripcion;
 	/*Indica si es una habitacion de salida */

@@ -4,6 +4,8 @@
 package lige.grupo03.pr4.modelo.commands;
 import lige.grupo03.pr4.VerbCommands;
 import lige.grupo03.pr4.modelo.Game;
+import lige.grupo03.pr4.modelo.eventos.Evento;
+import lige.grupo03.pr4.modelo.eventos.EventoError;
 
 /**
  * Clase que representa un Comando COGER
@@ -45,11 +47,9 @@ public class ComandoCoger extends Comando{
 	 * Procedimiento especifico del Comando Coger, que ejecuta la accion de coger un id
 	 * 
 	 */
-	/*
 	@Override
-	public boolean ejecutar() {
-		juego.cogerId(id);
-		return false;	
+	public Evento execute() {
+		// TODO Auto-generated method stub
+		return new EventoError("Error en el proceso");
 	}
-	*/
 }

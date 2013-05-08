@@ -4,10 +4,10 @@ import lige.grupo03.pr4.TipoEvento;
 
 public class EventoError extends Evento{
 	
-	String errorProducido;
+	private String errorProducido;
 
-	public EventoError(TipoEvento tipo, String errorProducido) {
-		super(tipo);
+	public EventoError(String errorProducido) {
+		super(TipoEvento.EVENTO_ERROR);
 		this.errorProducido = errorProducido;
 	}
 	

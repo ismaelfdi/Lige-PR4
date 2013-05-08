@@ -6,16 +6,27 @@ import lige.grupo03.pr4.modelo.Room;
 
 public class EventoMovimientoRealizado extends Evento{
 	
-	Room habitacion;
-	int vida;
-	Directions direccion;
+	private Room habitacion;
+	private int vida;
+	private Directions direccion;
 
-	public EventoMovimientoRealizado(TipoEvento tipo, Room habitacion, int vida, Directions direccion) {
-		super(tipo);
+	public EventoMovimientoRealizado(Room habitacion, int vida, Directions direccion) {
+		super(TipoEvento.EVENTO_MOVIMIENTO_REALIZADO);
 		this.habitacion = habitacion;
 		this.vida = vida;
 		this.direccion = direccion;
-		// TODO Auto-generated constructor stub
+	}
+	
+	public Room getHabitacion(){
+		return habitacion;
+	}
+	
+	public int getVida(){
+		return vida;
+	}
+	
+	public Directions getDireccion(){
+		return direccion;
 	}
 
 }

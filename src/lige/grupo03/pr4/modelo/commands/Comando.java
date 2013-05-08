@@ -1,6 +1,8 @@
 package lige.grupo03.pr4.modelo.commands;
 
 import lige.grupo03.pr4.VerbCommands;
+import lige.grupo03.pr4.modelo.eventos.Evento;
+import lige.grupo03.pr4.modelo.eventos.EventoError;
 
 /**
  * Clase que implementa la interface Command, y que instanciara un Comando desconocido
@@ -48,6 +50,12 @@ public class Comando implements Command{
 	@Override
 	public boolean esValido() {
 		return !(this.verbo.equals(VerbCommands.DESCONOCIDO));
+	}
+
+	@Override
+	public Evento execute() {
+		// TODO Auto-generated method stub
+		return new EventoError("Error en el proceso");
 	}
 	
 	/**

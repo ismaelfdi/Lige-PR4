@@ -8,7 +8,7 @@ import lige.grupo03.pr4.TipoEvento;
  * Clase padre de los diferentes eventos que se enviaran del modelo a la vista
  */
 public class Evento {
-	TipoEvento tipo;
+	private TipoEvento tipo;
 	
 	/**
 	 * Constructor de la clase Evento.
@@ -23,7 +23,7 @@ public class Evento {
 	 * Devuelve el tipo de evento que es
 	 * @return tipo de evento que es.
 	 */
-	public TipoEvento getType(){
+	public TipoEvento getTipo(){
 		return tipo;
 	}
 }

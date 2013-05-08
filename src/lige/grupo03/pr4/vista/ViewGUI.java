@@ -25,6 +25,12 @@ import lige.grupo03.pr4.TipoEvento;
 import lige.grupo03.pr4.TipoJugador;
 import lige.grupo03.pr4.control.Controller;
 import lige.grupo03.pr4.modelo.eventos.Evento;
+import lige.grupo03.pr4.modelo.eventos.EventoError;
+import lige.grupo03.pr4.modelo.eventos.EventoGo;
+import lige.grupo03.pr4.modelo.eventos.EventoMovimientoRealizado;
+import lige.grupo03.pr4.modelo.eventos.EventoObjetoCogido;
+import lige.grupo03.pr4.modelo.eventos.EventoObjetoUsado;
+import lige.grupo03.pr4.modelo.eventos.EventoPartidaFinalizada;
 import lige.grupo03.pr4.modelo.eventos.EventoPartidaIniciada;
 
 
@@ -35,7 +41,7 @@ public class ViewGUI extends JFrame implements Observer{
 	private Menu barraMenu;
 	private PanelInformacionJugador p2;
 	private PanelAcciones p1;
-	private PanelHabitacion habitacion;
+	private PanelHabitacion panelHabitacion;
 	private PanelMapa mapa;
 	private TipoJugador tipoJugador;
 	private ModoJuego modoJuego;
@@ -60,11 +66,11 @@ public class ViewGUI extends JFrame implements Observer{
 	private void reset(){
 		p2.removeAll();
 		p1.removeAll();
-		habitacion.removeAll();
+		panelHabitacion.removeAll();
 		mapa.removeAll();
 		p2.updateUI();
 		p1.updateUI();
-		habitacion.updateUI();
+		panelHabitacion.updateUI();
 		mapa.updateUI();
 		if(tipoJugador == TipoJugador.JUGADOR_IA);
 			//controller.finIA(); AQui reseteamos el modo IA
@@ -76,26 +82,6 @@ public class ViewGUI extends JFrame implements Observer{
 			//controller.juegoIA();//Aqui iniciamos el juego en modo IA
 	}
 
-	/*
-	private void inicializar(){
-		this.setLayout(new BorderLayout());
-		
-		PanelInformacionJugador p2 = new PanelInformacionJugador();
-		PanelAcciones p1 = new PanelAcciones(p2);
-		
-		PanelHabitacion habitacion = new PanelHabitacion();
-		PanelMapa mapa = new PanelMapa(habitacion);
-		
-		JSplitPane jspControl = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, p1, p2);
-		jspControl.setDividerLocation(300);
-		
-		this.add(jspControl,BorderLayout.NORTH);
-		this.add(mapa,BorderLayout.CENTER);
-		this.add(habitacion,BorderLayout.SOUTH);
-		
-		
-	}	
-	*/
 	
 	@Override
 	public void update(Observable modelo, Object ev) {
@@ -103,31 +89,33 @@ public class ViewGUI extends JFrame implements Observer{
 		
 		Evento evento = (Evento)ev;
 		
-		switch (evento.getType()) {
+		switch (evento.getTipo()) {
 		case EVENTO_PARTIDA_INICIADA:
-			EventoPartidaIniciada evNuevaPartida = new EventoPartidaIniciada(TipoEvento.EVENTO_PARTIDA_INICIADA,puntuacion,vida,inventarioJugador,habitacionActual);
-				
+			procesarIniciarPartida(evento);
 			break;
-		case EVENTO_PARTIDA_FINALIZADA:
-		
+			
+		case EVENTO_PARTIDA_FINALIZADA:	
+			procesarPartidaFinalizada(evento);
 			break;
+			
 		case EVENTO_MOVIMIENTO_REALIZADO:
-			
+			procesarMovimientoRealizado(evento);
 			break;
-		case EVENTO_OBJETO_COGIDO:
 			
+		case EVENTO_OBJETO_COGIDO:
+			procesarObjetoCogido(evento);
 			break;
 			
 		case EVENTO_OBJETO_USADO:
-			
+			procesarObjetoUsado(evento);
 			break;
 			
 		case EVENTO_ERROR:
-			
+			procesarError(evento);
 			break;
 			
 		case EVENTO_GO:
-			
+			procesarIr(evento);
 			break;
 		
 		default:
@@ -138,6 +126,60 @@ public class ViewGUI extends JFrame implements Observer{
 		
 	}
 	
+	public void procesarIniciarPartida(Evento evento){
+		EventoPartidaIniciada evNuevaPartida = (EventoPartidaIniciada)evento;
+		
+		//this.setLayout(new BorderLayout());
+		
+		p2 = new PanelInformacionJugador(evNuevaPartida.getVida(), evNuevaPartida.getPuntuacion(), evNuevaPartida.getInventarioJugador());
+		p1 = new PanelAcciones(p2,controller);
+		
+		panelHabitacion = new PanelHabitacion(evNuevaPartida.getHabitacionActual());
+		PanelMapa mapa = new PanelMapa(panelHabitacion, evNuevaPartida.getXInicial(), evNuevaPartida.getYinicial(),evNuevaPartida.getHabitacionActual());
+		
+		JSplitPane jspControl = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, p1, p2);
+		jspControl.setDividerLocation(300);
+		
+		this.add(jspControl,BorderLayout.NORTH);
+		this.add(mapa,BorderLayout.CENTER);
+		this.add(panelHabitacion,BorderLayout.SOUTH);	
+		actualizarGUI();
+	}
+	
+	private void actualizarGUI(){
+		p2.updateUI();
+		p1.updateUI();
+		panelHabitacion.updateUI();
+		mapa.updateUI();
+	}
+	
+	private void procesarIr(Evento evento) {
+		EventoGo eventoIr = (EventoGo)evento;
+			
+	}
+	
+	private void procesarError(Evento evento) {
+		EventoError eventoError = (EventoError)evento;
+			
+	}
+	
+	private void procesarObjetoUsado(Evento evento) {
+		EventoObjetoUsado eventoObjetoUsado = (EventoObjetoUsado)evento;	
+	}
+	
+	private void procesarObjetoCogido(Evento evento) {
+		EventoObjetoCogido eventoObjetoCogido = (EventoObjetoCogido)evento;
+	}
+	
+	private void procesarMovimientoRealizado(Evento evento) {
+		EventoMovimientoRealizado eventoMovimientoRealizado = (EventoMovimientoRealizado)evento;	
+	}
+	
+	private void procesarPartidaFinalizada(Evento evento) {
+		EventoPartidaFinalizada eventoPartidaFinalizada = (EventoPartidaFinalizada)evento;
+		
+	}
+
 /**********************************************************************/
 /*                     Clase privada Menu                             */	
 /**********************************************************************/
@@ -214,7 +256,6 @@ public class ViewGUI extends JFrame implements Observer{
 						String linea = br.readLine();
 						
 						while(linea != null){
-							System.out.println(linea);
 							textoAyuda.append(linea + "\n");
 							linea = br.readLine();
 						}

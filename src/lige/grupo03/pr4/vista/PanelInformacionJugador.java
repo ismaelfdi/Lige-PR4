@@ -13,6 +13,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 import javax.swing.table.JTableHeader;
 
+import lige.grupo03.pr4.modelo.Lista;
+
 /**
  * Clase que representa el Panel con la informacion del jugador
  * 
@@ -23,24 +25,31 @@ public class PanelInformacionJugador extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
 	private JTable tablaObjetos;
-	private Object rowData[][];
+	/*private Object rowData[][];*/
+	private Lista inventarioJugador;
+	private int vida;
+	private int puntuacion;
 	
-	public PanelInformacionJugador(){
+	public PanelInformacionJugador(int vida, int puntuacion, Lista inventarioJugador){
 		super();
+		this.vida = vida;
+		this.puntuacion = puntuacion;
+		this.inventarioJugador = inventarioJugador;
 		inicializar();
 	}
 	
 	private void inicializar(){
-		int vida = 100;
-		int puntos = 0;
 
 		Border border = BorderFactory.createTitledBorder("Información del jugador");
 		this.setBorder(border);
-		String mensaje = "Vida: " + vida + "  Puntuación: " + puntos;
-		JLabel puntuacion = new JLabel(mensaje, Label.LEFT);
+		String mensaje = "Vida: " + vida + "  Puntuación: " + puntuacion;
+		JLabel lblPuntuacion = new JLabel(mensaje, Label.LEFT);
 		
 		/*Creacion de la Tabla de puntuacion*/
 		String cabecera[] = {"Id", "Descripción"};
+		String rowData[][] = inventarioJugador.getRowData(); 
+		
+		/*
 		rowData = new Object[][]{{"Id1", "--item[Id1]=Descripcion1//1"},
 							  {"Id2", "--item[Id2]=Descripcion2//2"},
 							  {"Id3", "--item[Id3]=Descripcion3//1"},
@@ -49,7 +58,7 @@ public class PanelInformacionJugador extends JPanel{
 							  {"Id9", "--item[Id9]=Descripcion9//1"},
 							  {"Id9", "--item[Id9]=Descripcion9//1"},
 							  {"Id10", "--item[Id10]=Descripcion10//1"}};
-		
+		*/
 		tablaObjetos = new JTable(rowData, cabecera);
 		tablaObjetos.setToolTipText("Seleccione el id a usar");
 		
@@ -66,7 +75,7 @@ public class PanelInformacionJugador extends JPanel{
 		
 		this.setLayout(new BorderLayout());
 		
-		this.add(puntuacion, BorderLayout.NORTH);
+		this.add(lblPuntuacion, BorderLayout.NORTH);
 		this.add(pane, BorderLayout.CENTER);		
 	}
 	
@@ -77,7 +86,15 @@ public class PanelInformacionJugador extends JPanel{
 	 */
 	public String getSelectedITem(){
 		
+		String [][] rowData = inventarioJugador.getRowData();
 		int fila = tablaObjetos.getSelectedRow();
 		return (String) rowData[fila][1];	
+	}
+
+	/**
+	 * @param inventarioJugador the inventarioJugador to set
+	 */
+	public void setInventarioJugador(Lista inventarioJugador) {
+		this.inventarioJugador = inventarioJugador;
 	}
 }

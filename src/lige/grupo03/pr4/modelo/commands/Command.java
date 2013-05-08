@@ -4,6 +4,7 @@
 package lige.grupo03.pr4.modelo.commands;
 
 import lige.grupo03.pr4.VerbCommands;
+import lige.grupo03.pr4.modelo.eventos.Evento;
 
 /**
 * Interface que implementa los distintos comandos a utilizar en el juego
@@ -24,7 +25,7 @@ public interface Command {
 	 * Realizar funciones especificas de cada comando
 	 * 
 	 */
-	//boolean ejecutar();
+	Evento execute();
 	
 	/**
 	 * Devuelve el atributo verbo del comando especifico

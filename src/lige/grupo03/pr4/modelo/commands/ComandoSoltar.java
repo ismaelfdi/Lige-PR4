@@ -2,6 +2,8 @@ package lige.grupo03.pr4.modelo.commands;
 
 import lige.grupo03.pr4.VerbCommands;
 import lige.grupo03.pr4.modelo.Game;
+import lige.grupo03.pr4.modelo.eventos.Evento;
+import lige.grupo03.pr4.modelo.eventos.EventoError;
 
 /**
  * Clase que representa un Comando SOLTAR
@@ -42,11 +44,10 @@ public class ComandoSoltar extends Comando{
 	 * Procedimiento especifico del Comando SOLTAR
 	 * 
 	 */
-	/*
+	
 	@Override
-	public boolean ejecutar(){
-		juego.soltarId(id);
-		return false;
+	public Evento execute() {
+		// TODO Auto-generated method stub
+		return new EventoError("Error en el proceso");
 	}
-	*/
 }

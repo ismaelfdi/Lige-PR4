@@ -127,4 +127,25 @@ public class Lista {
 		return lista.isEmpty();
 	}
 	
+	public String[][] getRowData(){
+		
+		int n = lista.size();
+		String[][] rowData = new String[n][2];
+		int i = 0;
+		
+		for (Iterator<Item> iterator = lista.iterator(); iterator.hasNext();) {
+			Item item = (Item) iterator.next();
+			
+			rowData[i][0] = item.getId();
+			rowData[i][1] = item.getDescripcion();
+		}
+		
+		return rowData;
+	}
+	
+	
+	
+	
+	
+	
 }

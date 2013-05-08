@@ -2,6 +2,9 @@ package lige.grupo03.pr4.modelo.commands;
 
 import lige.grupo03.pr4.VerbCommands;
 import lige.grupo03.pr4.modelo.Game;
+import lige.grupo03.pr4.modelo.eventos.Evento;
+import lige.grupo03.pr4.modelo.eventos.EventoError;
+import lige.grupo03.pr4.modelo.eventos.EventoPartidaFinalizada;
 
 /**
  * Clase que representa un Comando SALIR
@@ -27,11 +30,10 @@ public class ComandoSalir extends Comando{
 	 * Procedimiento especifico del Comando SALIR
 	 * 
 	 */
-	/*
+	
 	@Override
-	public boolean ejecutar() {
-		juego.salir();
-		return true;
+	public Evento execute() {
+		// TODO Auto-generated method stub
+		return null;//new EventoPartidaFinalizada("Error en el proceso");
 	}
-	*/
 }

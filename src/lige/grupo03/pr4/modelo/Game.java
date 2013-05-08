@@ -9,6 +9,9 @@ import lige.grupo03.pr4.Directions;
 import lige.grupo03.pr4.modelo.Door;
 import lige.grupo03.pr4.modelo.Map;
 import lige.grupo03.pr4.modelo.Room;
+import lige.grupo03.pr4.modelo.commands.ComandoIr;
+import lige.grupo03.pr4.modelo.commands.Command;
+import lige.grupo03.pr4.modelo.eventos.EventoPartidaIniciada;
 import lige.grupo03.pr4.modelo.items.Comida;
 import lige.grupo03.pr4.modelo.items.Item;
 import lige.grupo03.pr4.modelo.items.Llave;
@@ -165,6 +168,8 @@ public class Game extends Observable{
 		
 		int puntuacion = 0;
 		int vida = 100;
+		int xInicial = 5;
+		int yInicial = 5;
 		
 		Map m = new Map();
 		//Se crean las habitaciones
@@ -173,19 +178,22 @@ public class Game extends Observable{
 		//Se crean las puertas
 		insertDoors(m, habitaciones);
 		
-		Room habitacionActual = habitaciones[5][5];
+		Room habitacionActual = habitaciones[xInicial][yInicial];
 		
 		//Se crean los objetos
 		Lista inventarioJugador = new Lista();
 		
 		this.setChanged();
 	
-		this.notifyObservers(new eventoPartidaIniciada(puntuacion,vida,inventarioJugador,habitacionActual));
+		this.notifyObservers(new EventoPartidaIniciada(xInicial, yInicial, puntuacion, vida, inventarioJugador, habitacionActual));
 		
 	}
-
-
-	public void mostrarInstrucciones() {
+	public void executeCommand(Command comando) {
+		comando.execute();
+	}
+	public Door getDoor(Directions direccion) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

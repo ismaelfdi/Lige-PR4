@@ -4,11 +4,8 @@ import lige.grupo03.pr4.Directions;
 import lige.grupo03.pr4.VerbCommands;
 import lige.grupo03.pr4.modelo.Player;
 import lige.grupo03.pr4.modelo.commands.Comando;
-import lige.grupo03.pr4.modelo.commands.ComandoAyuda;
 import lige.grupo03.pr4.modelo.commands.ComandoCoger;
-import lige.grupo03.pr4.modelo.commands.ComandoExaminar;
 import lige.grupo03.pr4.modelo.commands.ComandoIr;
-import lige.grupo03.pr4.modelo.commands.ComandoMirar;
 import lige.grupo03.pr4.modelo.commands.ComandoSalir;
 import lige.grupo03.pr4.modelo.commands.ComandoSoltar;
 import lige.grupo03.pr4.modelo.commands.ComandoUsar;
@@ -32,14 +29,8 @@ public class Parser {
 		
 		cadena = cadena.toUpperCase();
 		
-		if(cadena.equals(VerbCommands.AYUDA.toString()) || cadena.equals(VerbCommands.HELP.toString())){
-			return new ComandoAyuda();
-		}else if(cadena.equals(VerbCommands.SALIR.toString()) || cadena.equals(VerbCommands.EXIT.toString())){
+		if(cadena.equals(VerbCommands.SALIR.toString()) || cadena.equals(VerbCommands.EXIT.toString())){
 			return new ComandoSalir(juego);
-		}else if(cadena.equals(VerbCommands.EXAMINAR.toString()) || cadena.equals(VerbCommands.EXAMINE.toString())){
-			return new ComandoExaminar(habitacionActual);
-		}else if(cadena.equals(VerbCommands.MIRAR.toString()) || cadena.equals(VerbCommands.LOOK.toString())){
-			return new ComandoMirar(jugador);
 		}else{
 			String[] trozos = cadena.split(" ");			
 			
@@ -59,8 +50,6 @@ public class Parser {
 					default:
 						return new Comando();
 					}		
-				}else if(trozos[0].equals(VerbCommands.MIRAR.toString()) || trozos[0].equals(VerbCommands.LOOK.toString())){
-					return new ComandoMirar(jugador, trozos[1].toLowerCase());
 				}else if(trozos[0].equals(VerbCommands.COGER.toString()) || trozos[0].equals(VerbCommands.CATCH.toString())){
 					return new ComandoCoger(juego, trozos[1].toLowerCase());
 				}else if(trozos[0].equals(VerbCommands.USAR.toString()) || trozos[0].equals(VerbCommands.USE.toString())){
