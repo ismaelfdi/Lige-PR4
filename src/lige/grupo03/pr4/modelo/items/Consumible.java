@@ -21,16 +21,16 @@ public abstract class Consumible extends Item{
 	
 	
 	/*Atributo que contiene el número de usos del Item*/
-	private int numeroVeces;
+	private int numeroUsos;
 	
 	/**
 	 * Constructor parametrizado del Item Consumible
 	 * 
 	 * @param puntos repesenta el valor que otorga o resta un Item Consumible
 	 */
-	public Consumible(String id, String descripcion, int numeroVeces) {
+	public Consumible(String id, String descripcion, int numeroUsos) {
 		super(id, descripcion);
-		this.numeroVeces = numeroVeces;
+		this.numeroUsos = numeroUsos;
 	}
 	
 	/**
@@ -38,8 +38,8 @@ public abstract class Consumible extends Item{
 	 * 
 	 * @return Int con el valor del atributo numeroVeces
 	 */
-	public int getNumeroVeces(){
-		return numeroVeces;
+	public int getNumeroUsos(){
+		return numeroUsos;
 	}
 	
 	/**
@@ -47,8 +47,8 @@ public abstract class Consumible extends Item{
 	 * 
 	 * @return Int con el valor del atributo numeroVeces restado
 	 */
-	public int setNumeroVeces(){
-		return --numeroVeces;
+	public int decrementarNumeroUsos(){
+		return --numeroUsos;
 	}
 	
 	
@@ -61,9 +61,12 @@ public abstract class Consumible extends Item{
 	 */
 	@Override
 	public String toString(){	
-		return super.toString() + "number times are " + numeroVeces;
+		return super.toString() + "number times are " + numeroUsos;
 	}
 	
+	public boolean canBeUsed(){
+		return numeroUsos > 0;
+	}
 
 	/**
 	 * Metodo abstracto concreto que ejecutará cada Item al invocar el comando USAR

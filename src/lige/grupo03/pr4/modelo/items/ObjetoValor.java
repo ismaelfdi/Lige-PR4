@@ -48,20 +48,10 @@ public class ObjetoValor extends Consumible{
 		
 		if(canBeUsed()){
 			who.agregaPuntuacion(getPuntos());
-			setPuntos(0);
+			super.decrementarNumeroUsos();
 			return true;
 		}else
 			return false;
-	}
-	
-	/**
-	 * Implementacion del metodo abstracto para un Item Consumible
-	 * 
-	 * @return boolean indicando si un Item Consumible puede ser usado o no
-	 */
-	@Override
-	public boolean canBeUsed() {
-		return (puntos > 0);
 	}
 	
 	/**
@@ -73,14 +63,6 @@ public class ObjetoValor extends Consumible{
 		return puntos;
 	}
 	
-	/**
-	 * Modifica el atributo puntos de un Item al consumirse
-	 * 
-	 * @param puntos int que se asignara al atributo puntos
-	 */
-	public void setPuntos(int puntos){
-		this.puntos = puntos;
-	}
 
 	/**
 	 * Implementacion del metodo abstracto clone
@@ -91,8 +73,4 @@ public class ObjetoValor extends Consumible{
 	public ObjetoValor clone() {
 		return new ObjetoValor(this.getId(), this.getDescripcion(), this.getPuntos());
 	}
-	
-	
-	
-
 }

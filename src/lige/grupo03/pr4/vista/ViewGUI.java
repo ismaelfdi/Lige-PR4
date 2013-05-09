@@ -29,6 +29,7 @@ import lige.grupo03.pr4.modelo.eventos.EventoError;
 import lige.grupo03.pr4.modelo.eventos.EventoGo;
 import lige.grupo03.pr4.modelo.eventos.EventoMovimientoRealizado;
 import lige.grupo03.pr4.modelo.eventos.EventoObjetoCogido;
+import lige.grupo03.pr4.modelo.eventos.EventoObjetoSoltado;
 import lige.grupo03.pr4.modelo.eventos.EventoObjetoUsado;
 import lige.grupo03.pr4.modelo.eventos.EventoPartidaFinalizada;
 import lige.grupo03.pr4.modelo.eventos.EventoPartidaIniciada;
@@ -45,7 +46,7 @@ public class ViewGUI extends JFrame implements Observer{
 	private PanelMapa mapa;
 	private TipoJugador tipoJugador;
 	private ModoJuego modoJuego;
-	
+	private JSplitPane jspControl;
 	public ViewGUI(Controller controller){
 		super("Aventura conversacional GUI");
 		this.controller = controller;
@@ -68,10 +69,19 @@ public class ViewGUI extends JFrame implements Observer{
 		p1.removeAll();
 		panelHabitacion.removeAll();
 		mapa.removeAll();
+		
+		/*
+		this.remove(jspControl);
+		this.remove(mapa);
+		this.remove(panelHabitacion);
+		*/
+		this.getContentPane().removeAll();
 		p2.updateUI();
 		p1.updateUI();
 		panelHabitacion.updateUI();
 		mapa.updateUI();
+		this.update(getGraphics());
+		
 		if(tipoJugador == TipoJugador.JUGADOR_IA);
 			//controller.finIA(); AQui reseteamos el modo IA
 	}
@@ -99,7 +109,7 @@ public class ViewGUI extends JFrame implements Observer{
 			break;
 			
 		case EVENTO_MOVIMIENTO_REALIZADO:
-			procesarMovimientoRealizado(evento);
+			procesarIr(evento);
 			break;
 			
 		case EVENTO_OBJETO_COGIDO:
@@ -113,9 +123,13 @@ public class ViewGUI extends JFrame implements Observer{
 		case EVENTO_ERROR:
 			procesarError(evento);
 			break;
+		
+		case EVENTO_OBJETO_SOLTADO:
+			procesarObjetoSoltado(evento);
+			break;
 			
 		case EVENTO_GO:
-			procesarIr(evento);
+			//procesarIr(evento);
 			break;
 		
 		default:
@@ -126,7 +140,14 @@ public class ViewGUI extends JFrame implements Observer{
 		
 	}
 	
-	public void procesarIniciarPartida(Evento evento){
+	private void procesarObjetoSoltado(Evento evento) {
+		
+		EventoObjetoSoltado evObjetoSoltado = (EventoObjetoSoltado)evento;
+		p2.actualizarInventario(evObjetoSoltado.getInventarioJugador());
+		panelHabitacion.actualizarEstado(evObjetoSoltado.getHabitacion());
+	}
+
+	private void procesarIniciarPartida(Evento evento){
 		EventoPartidaIniciada evNuevaPartida = (EventoPartidaIniciada)evento;
 		
 		//this.setLayout(new BorderLayout());
@@ -135,9 +156,9 @@ public class ViewGUI extends JFrame implements Observer{
 		p1 = new PanelAcciones(p2,controller);
 		
 		panelHabitacion = new PanelHabitacion(evNuevaPartida.getHabitacionActual());
-		PanelMapa mapa = new PanelMapa(panelHabitacion, evNuevaPartida.getXInicial(), evNuevaPartida.getYinicial(),evNuevaPartida.getHabitacionActual());
+		mapa = new PanelMapa(panelHabitacion, evNuevaPartida.getXInicial(), evNuevaPartida.getYinicial(),evNuevaPartida.getHabitacionActual());
 		
-		JSplitPane jspControl = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, p1, p2);
+		jspControl = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, p1, p2);
 		jspControl.setDividerLocation(300);
 		
 		this.add(jspControl,BorderLayout.NORTH);
@@ -149,26 +170,38 @@ public class ViewGUI extends JFrame implements Observer{
 	private void actualizarGUI(){
 		p2.updateUI();
 		p1.updateUI();
+		jspControl.updateUI();
 		panelHabitacion.updateUI();
 		mapa.updateUI();
 	}
 	
 	private void procesarIr(Evento evento) {
-		EventoGo eventoIr = (EventoGo)evento;
-			
+		EventoMovimientoRealizado evMovRealizado = (EventoMovimientoRealizado)evento;
+		//JOptionPane.showMessageDialog(null, "Pasando por aqui...");
+		p2.actualizarEstado(evMovRealizado.getVida(),evMovRealizado.getPuntuacion());
+		mapa.actualizarEstado(evMovRealizado.getDireccion(), evMovRealizado.getHabitacion());
+		panelHabitacion.actualizarEstado(evMovRealizado.getHabitacion());
 	}
 	
 	private void procesarError(Evento evento) {
 		EventoError eventoError = (EventoError)evento;
+		
+		JOptionPane.showMessageDialog(null, eventoError.getErrorProducido());
 			
 	}
 	
 	private void procesarObjetoUsado(Evento evento) {
-		EventoObjetoUsado eventoObjetoUsado = (EventoObjetoUsado)evento;	
+		EventoObjetoUsado evObjetoUsado = (EventoObjetoUsado)evento;
+		p2.actualizarInventario(evObjetoUsado.getInventarioJugador());
+		p2.actualizarEstado(evObjetoUsado.getVida(), evObjetoUsado.getPuntuacion());
+		
 	}
 	
 	private void procesarObjetoCogido(Evento evento) {
-		EventoObjetoCogido eventoObjetoCogido = (EventoObjetoCogido)evento;
+		EventoObjetoCogido evObjetoCogido = (EventoObjetoCogido)evento;
+		
+		p2.actualizarInventario(evObjetoCogido.getInventarioJugador());
+		panelHabitacion.actualizarEstado(evObjetoCogido.getHabitacion());
 	}
 	
 	private void procesarMovimientoRealizado(Evento evento) {

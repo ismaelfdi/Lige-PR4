@@ -23,8 +23,8 @@ public class Comida extends Consumible{
 	 * @param puntos int que almacena el valor que otorga al nivel de vida
 	 * @param numeroVeces int que almacena el numero de veces a usar el objeto
 	 */
-	public Comida(String id, String descripcion, int numeroVeces, int vida) {
-		super(id, descripcion, numeroVeces);
+	public Comida(String id, String descripcion, int vida, int numeroUsos) {
+		super(id, descripcion, numeroUsos);
 		this.vida = vida;
 	}
 
@@ -45,7 +45,7 @@ public class Comida extends Consumible{
 	 */
 	@Override
 	public String toString(){	
-		return "--item[" + super.getId() + "]=This " + super.getDescripcion() + " value is " + getVida() + "//" + super.getNumeroVeces();
+		return "--item[" + super.getId() + "]=This " + super.getDescripcion() + " value is " + getVida() + "//" + super.getNumeroUsos();
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class Comida extends Consumible{
 		
 		if(canBeUsed()){
 			who.sumarVida(getVida());
-			super.setNumeroVeces();
+			super.decrementarNumeroUsos();
 			return true;
 		}else
 			return false;
@@ -73,14 +73,7 @@ public class Comida extends Consumible{
 	 */
 	@Override
 	public Comida clone() {
-		return new Comida(this.getId(),this.getDescripcion(),this.getNumeroVeces(), vida);
-	}
-
-
-	@Override
-	public boolean canBeUsed() {
-		// TODO Auto-generated method stub
-		return false;
+		return new Comida(this.getId(),this.getDescripcion(),this.getNumeroUsos(), vida);
 	}
 
 }

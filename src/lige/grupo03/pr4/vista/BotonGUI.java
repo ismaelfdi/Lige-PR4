@@ -1,5 +1,7 @@
 package lige.grupo03.pr4.vista;
 
+import java.awt.Color;
+
 import javax.swing.JButton;
 
 import lige.grupo03.pr4.modelo.Room;
@@ -17,6 +19,8 @@ public class BotonGUI extends JButton{
 		activa = false;
 		visitado = false;
 	}
+	
+	
 
 
 	/**
@@ -49,6 +53,13 @@ public class BotonGUI extends JButton{
 	public void setActiva(boolean activa) {
 		this.activa = activa;
 	}
+	
+	public void setBackground(){
+		if(isActiva())
+			this.setBackground(Color.GREEN);
+		else
+			this.setBackground(Color.GRAY);
+	}
 
 
 	/**
@@ -67,9 +78,13 @@ public class BotonGUI extends JButton{
 	}
 
 
+	public String descripcion() {
+		return habitacion.getDescripcion();
+	}
 
-
-
+	public String mostrarInventarioHabitacion(){
+		return habitacion.toString();
+	}
 
 
 	

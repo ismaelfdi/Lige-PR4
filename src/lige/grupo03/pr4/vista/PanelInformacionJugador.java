@@ -2,6 +2,7 @@ package lige.grupo03.pr4.vista;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Label;
 
 import javax.swing.BorderFactory;
@@ -27,6 +28,7 @@ public class PanelInformacionJugador extends JPanel{
 	private JTable tablaObjetos;
 	/*private Object rowData[][];*/
 	private Lista inventarioJugador;
+	JLabel lblPuntuacion;
 	private int vida;
 	private int puntuacion;
 	
@@ -43,22 +45,12 @@ public class PanelInformacionJugador extends JPanel{
 		Border border = BorderFactory.createTitledBorder("Información del jugador");
 		this.setBorder(border);
 		String mensaje = "Vida: " + vida + "  Puntuación: " + puntuacion;
-		JLabel lblPuntuacion = new JLabel(mensaje, Label.LEFT);
+		lblPuntuacion = new JLabel(mensaje, Label.LEFT);
 		
 		/*Creacion de la Tabla de puntuacion*/
 		String cabecera[] = {"Id", "Descripción"};
 		String rowData[][] = inventarioJugador.getRowData(); 
 		
-		/*
-		rowData = new Object[][]{{"Id1", "--item[Id1]=Descripcion1//1"},
-							  {"Id2", "--item[Id2]=Descripcion2//2"},
-							  {"Id3", "--item[Id3]=Descripcion3//1"},
-							  {"Id4", "--item[Id4]=Descripcion4//1"},
-							  {"Id5", "--item[Id5]=Descripcion5//1"},
-							  {"Id9", "--item[Id9]=Descripcion9//1"},
-							  {"Id9", "--item[Id9]=Descripcion9//1"},
-							  {"Id10", "--item[Id10]=Descripcion10//1"}};
-		*/
 		tablaObjetos = new JTable(rowData, cabecera);
 		tablaObjetos.setToolTipText("Seleccione el id a usar");
 		
@@ -88,7 +80,7 @@ public class PanelInformacionJugador extends JPanel{
 		
 		String [][] rowData = inventarioJugador.getRowData();
 		int fila = tablaObjetos.getSelectedRow();
-		return (String) rowData[fila][1];	
+		return (String) rowData[fila][0];	
 	}
 
 	/**
@@ -96,5 +88,26 @@ public class PanelInformacionJugador extends JPanel{
 	 */
 	public void setInventarioJugador(Lista inventarioJugador) {
 		this.inventarioJugador = inventarioJugador;
+	}
+	
+	public Lista getInventarioJugador(){
+		return inventarioJugador;
+	}
+
+	public void actualizarEstado(int vida, int puntuacion) {
+		
+		this.vida = vida;
+		this.puntuacion = puntuacion;
+		
+		this.removeAll();
+		inicializar();
+		this.updateUI();
+	}
+
+	public void actualizarInventario(Lista inventarioJugador) {
+		this.inventarioJugador = inventarioJugador;
+		this.removeAll();
+		inicializar();
+		this.updateUI();
 	}
 }

@@ -54,5 +54,11 @@ public class PanelHabitacion extends JPanel{
 	void escribe(String texto){
 		informacion.setText(texto);
 	}
+	
+	public void actualizarEstado(Room habitacionActual){
+		this.habitacion = habitacionActual;
+		informacion.setText(habitacion.toString());
+		informacion.updateUI();
+	}
 
 }

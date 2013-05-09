@@ -9,10 +9,11 @@ public class EventoObjetoUsado extends Evento{
 	private int vida;
 	private Lista inventarioJugador;
 
-	public EventoObjetoUsado(int puntuacion, int vida) {
+	public EventoObjetoUsado(int vida, int puntuacion, Lista inventarioJugador) {
 		super(TipoEvento.EVENTO_OBJETO_USADO);
 		this.puntuacion = puntuacion;
 		this.vida = vida;
+		this.inventarioJugador = inventarioJugador;
 	}
 	
 	public int getPuntuacion(){

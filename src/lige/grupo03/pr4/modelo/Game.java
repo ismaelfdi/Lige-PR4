@@ -11,6 +11,8 @@ import lige.grupo03.pr4.modelo.Map;
 import lige.grupo03.pr4.modelo.Room;
 import lige.grupo03.pr4.modelo.commands.ComandoIr;
 import lige.grupo03.pr4.modelo.commands.Command;
+import lige.grupo03.pr4.modelo.eventos.Evento;
+import lige.grupo03.pr4.modelo.eventos.EventoPartidaFinalizada;
 import lige.grupo03.pr4.modelo.eventos.EventoPartidaIniciada;
 import lige.grupo03.pr4.modelo.items.Comida;
 import lige.grupo03.pr4.modelo.items.Item;
@@ -19,7 +21,19 @@ import lige.grupo03.pr4.modelo.items.ObjetoValor;
 
 public class Game extends Observable{
 	
+	/*Atributo que almacena las puertas*/
+	private Map m;
+	/*Atributo que representa la habitacion actual*/
+	private Room habitacionActual;
+	private Player jugador;	
+	/*
+	private int vida;
+	private int puntuacion;
+	*/
 	public Game(){
+		m = new Map();
+		habitacionActual = new Room();
+		jugador = new Player();		
 	}
 	/**
 	Room[] createRooms: Crea un array con las habitaciones de la
@@ -54,21 +68,21 @@ public class Game extends Observable{
 
 		ArrayList<Door> puertas = new ArrayList<Door>();
 		
-		puertas.add(new Door(habitaciones[5][5],Directions.NORTE,habitaciones[4][5], false));
-		puertas.add(new Door(habitaciones[6][5],Directions.NORTE,habitaciones[5][5], false));
-		puertas.add(new Door(habitaciones[4][5],Directions.OESTE,habitaciones[4][4], false));
-		puertas.add(new Door(habitaciones[4][5],Directions.ESTE,habitaciones[4][6], false));
-		puertas.add(new Door(habitaciones[4][5],Directions.NORTE,habitaciones[3][5], false));
-		puertas.add(new Door(habitaciones[4][4],Directions.OESTE,habitaciones[4][3], false));
-		puertas.add(new Door(habitaciones[4][4],Directions.SUR,habitaciones[5][4], false));
-		puertas.add(new Door(habitaciones[4][6],Directions.NORTE,habitaciones[3][6], false));
-		puertas.add(new Door(habitaciones[4][6],Directions.ESTE,habitaciones[4][7], false));
-		puertas.add(new Door(habitaciones[4][6],Directions.SUR,habitaciones[5][6], false));
-		puertas.add(new Door(habitaciones[3][5],Directions.NORTE,habitaciones[2][5], false));
-		puertas.add(new Door(habitaciones[3][5],Directions.OESTE,habitaciones[3][4], false));
-		puertas.add(new Door(habitaciones[3][4],Directions.NORTE,habitaciones[2][4], false));
-		puertas.add(new Door(habitaciones[2][4],Directions.ESTE,habitaciones[2][5], false));
-		puertas.add(new Door(habitaciones[2][5],Directions.ESTE,habitaciones[2][6], false));
+		puertas.add(new Door(habitaciones[5][5],Directions.NORTE,habitaciones[4][5], true));
+		puertas.add(new Door(habitaciones[6][5],Directions.NORTE,habitaciones[5][5], true));
+		puertas.add(new Door(habitaciones[4][5],Directions.OESTE,habitaciones[4][4], true));
+		puertas.add(new Door(habitaciones[4][5],Directions.ESTE,habitaciones[4][6], true));
+		puertas.add(new Door(habitaciones[4][5],Directions.NORTE,habitaciones[3][5], true));
+		puertas.add(new Door(habitaciones[4][4],Directions.OESTE,habitaciones[4][3], true));
+		puertas.add(new Door(habitaciones[4][4],Directions.SUR,habitaciones[5][4], true));
+		puertas.add(new Door(habitaciones[4][6],Directions.NORTE,habitaciones[3][6], true));
+		puertas.add(new Door(habitaciones[4][6],Directions.ESTE,habitaciones[4][7], true));
+		puertas.add(new Door(habitaciones[4][6],Directions.SUR,habitaciones[5][6], true));
+		puertas.add(new Door(habitaciones[3][5],Directions.NORTE,habitaciones[2][5], true));
+		puertas.add(new Door(habitaciones[3][5],Directions.OESTE,habitaciones[3][4], true));
+		puertas.add(new Door(habitaciones[3][4],Directions.NORTE,habitaciones[2][4], true));
+		puertas.add(new Door(habitaciones[2][4],Directions.ESTE,habitaciones[2][5], true));
+		puertas.add(new Door(habitaciones[2][5],Directions.ESTE,habitaciones[2][6], true));
 		
 		return puertas;	
 	}
@@ -166,34 +180,254 @@ public class Game extends Observable{
 
 	public void iniciarPartida() {
 		
-		int puntuacion = 0;
-		int vida = 100;
+		jugador.setPuntuacion(0);
+		jugador.setVida(100);
+		
 		int xInicial = 5;
 		int yInicial = 5;
 		
-		Map m = new Map();
+		//Map m = new Map();
 		//Se crean las habitaciones
 		Room[][] habitaciones = createRooms(11,11); 
 		
 		//Se crean las puertas
 		insertDoors(m, habitaciones);
 		
-		Room habitacionActual = habitaciones[xInicial][yInicial];
+		habitacionActual = habitaciones[xInicial][yInicial];
 		
 		//Se crean los objetos
-		Lista inventarioJugador = new Lista();
+		//Lista inventarioJugador = new Lista();
 		
 		this.setChanged();
 	
-		this.notifyObservers(new EventoPartidaIniciada(xInicial, yInicial, puntuacion, vida, inventarioJugador, habitacionActual));
+		this.notifyObservers(new EventoPartidaIniciada(xInicial, yInicial, jugador.getPuntuacion(), jugador.getVida(), jugador.getInventarioPlayer(), habitacionActual));
 		
 	}
+	
+	
 	public void executeCommand(Command comando) {
-		comando.execute();
+		Evento evento = comando.execute();
+		
+		switch (comando.getVerbo()) {
+			case IR:		
+					this.setChanged();
+					this.notifyObservers(evento);
+					
+					if(habitacionActual.isSalida()){
+						this.setChanged();
+						this.notifyObservers(new EventoPartidaFinalizada(jugador.getPuntuacion(), jugador.getVida(), true));
+					}else if(!jugador.tieneNivelVida()){
+						this.setChanged();
+						this.notifyObservers(new EventoPartidaFinalizada(jugador.getPuntuacion(), jugador.getVida(), false));
+					}
+					break;
+					
+			case COGER:
+					this.setChanged();
+					this.notifyObservers(evento);
+				break;
+				
+			case USAR:
+					this.setChanged();
+					this.notifyObservers(evento);
+					if(!jugador.tieneNivelVida()){
+						this.setChanged();
+						this.notifyObservers(new EventoPartidaFinalizada(jugador.getPuntuacion(), jugador.getVida(), false));
+					}
+				break;
+			case SOLTAR:
+					this.setChanged();
+					this.notifyObservers(evento);
+				break;
+				/*
+			case IR:
+				
+				break;
+			case IR:
+				
+				break;
+			case IR:
+				
+				break;*/
+			default:
+				break;
+		}
+		
+
+			
+		
+		
 	}
 	public Door getDoor(Directions direccion) {
-		// TODO Auto-generated method stub
-		return null;
+		return m.devolverPuerta(habitacionActual, direccion);
+	}
+	
+	public Room getHabitacionActual(){
+		return habitacionActual;
+	}
+	
+	public Player getJugador(){
+		return jugador;
+	}
+	
+	public int vida(){
+		return jugador.getVida();
+	}
+	
+	public int puntuacion(){
+		return jugador.getPuntuacion();
+	}
+	
+
+	public void cambiarHabitacion(Directions direccion){
+
+		String mensaje = "...moviéndonos al " + direccion.toString() + "\n";	
+		Door puerta = m.devolverPuerta(habitacionActual, direccion);
+
+		habitacionActual = puerta.nextRoom(habitacionActual);
+		jugador.restarVida();
+
+		
 	}
 
+	public boolean estaEnHabitacionActual(String id){
+		return habitacionActual.estaObjeto(id);
+	}
+	
+	public boolean estaEnInventarioJugador(String id){
+		return jugador.tieneEnInventario(id);
+	}
+
+	public void cogerId(String id){
+		Item item = habitacionActual.cogerObjeto(id);
+		jugador.agregaObjeto(item);				
+	}
+	
+	public Lista inventarioJugador(){
+		return jugador.getInventarioPlayer();
+	}
+	
+	public void usarObjeto(String id){
+		
+		Item item = jugador.obtenerObjeto(id);
+			
+		if(item.use(jugador, habitacionActual)){
+			if(!item.canBeUsed()){
+					jugador.borrarItem(id);
+			}
+		}
+		
+	}	
+
+	
+	public void soltarId(String id) {
+		
+		
+		if(!habitacionActual.estaObjeto(id)){
+			Item item = jugador.obtenerObjeto(id);
+			jugador.borrarItem(id);
+			habitacionActual.agregarItem(item);	
+		}	
+	}
+
+/*	
+	
+
+	public void mostrarInventarioHabitacion(){
+		UIConsola.printText(habitacionActual.mostrarInventario());
+	}
+
+
+
+	public void usarObjeto(String id){
+		if(jugador.tieneEnInventario(id)){
+			Item item = jugador.obtenerObjeto(id);
+			
+			if(item.use(jugador, habitacionActual)){
+				UIConsola.printText("Algo ha cambiado...");
+				if(!item.canBeUsed()){
+					jugador.borrarItem(id);
+					UIConsola.printText("\n" + item.getId() + " ha sido borrado de tu inventario.\n");
+					UIConsola.printText(jugador.mostrarPuntuacion());
+				}
+			}
+			else
+				UIConsola.printText("Como no fuiste a clase de LIGe la semana pasada no " +
+									"sabes cómo usar los objetos de forma adecuada...");
+			
+		}else
+			UIConsola.showError("Alguien robo tu " + id + ".");
+	}
+	
+
+	public void cogerId(String id){
+		if(habitacionActual.estaObjeto(id)){
+			if(!jugador.tieneEnInventario(id)){
+				Item item = habitacionActual.cogerObjeto(id);
+				jugador.agregaObjeto(item);
+			}else{
+				UIConsola.showError("Ya tienes otro " + id + " en tu inventario.");
+			}
+		}else{
+			UIConsola.showError("El objeto " + id + " no está en esta habitación.");
+		}		
+	}
+	
+
+	public void salir() {
+		UIConsola.printText("GAME OVER!!\nGracias por jugar.\n");
+		UIConsola.printText( jugador.mostrarPuntuacion());	
+	}
+	
+
+	public void mirarId(String id) {
+		if(id.equals(""))
+			UIConsola.printText(jugador.mostrarInventario());
+		else
+			UIConsola.printText(jugador.mostrarItem(id));
+		
+	}
+
+
+	public void soltarId(String id) {
+		
+		if(jugador.tieneEnInventario(id)){
+			if(!habitacionActual.estaObjeto(id)){
+				Item item = jugador.obtenerObjeto(id);
+				jugador.borrarItem(id);
+				habitacionActual.agregarItem(item);
+				
+			}else
+				UIConsola.showError("El objeto " + id + " ya existe en esta habitacion.");	
+		}else
+			UIConsola.showError("No tienes " + id + " en tu inventario.");
+		
+	}
+	
+
+
+
+	public void comenzarJuego(){
+		
+		Command comando = new Comando();
+		String entrada;
+		
+		UIConsola.printText(habitacionActual.mostrarInventario());
+		UIConsola.printText(jugador.mostrarPuntuacion());
+		while(!(comando.getVerbo().equals(VerbCommands.SALIR) || habitacionActual.getSalida() || !jugador.tieneNivelVida())){	
+			entrada = UIConsola.askComand();
+			comando = Parser.parsear(this, entrada);
+			comando.ejecutar();
+		}
+				
+		if(habitacionActual.getSalida())
+			UIConsola.printText("\nHa ganado!!!");
+	}
+
+	
+	
+	
+	
+*/
+	
 }

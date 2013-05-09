@@ -4,6 +4,8 @@ import lige.grupo03.pr4.VerbCommands;
 import lige.grupo03.pr4.modelo.Game;
 import lige.grupo03.pr4.modelo.eventos.Evento;
 import lige.grupo03.pr4.modelo.eventos.EventoError;
+import lige.grupo03.pr4.modelo.eventos.EventoObjetoSoltado;
+import lige.grupo03.pr4.modelo.items.Item;
 
 /**
  * Clase que representa un Comando SOLTAR
@@ -47,7 +49,15 @@ public class ComandoSoltar extends Comando{
 	
 	@Override
 	public Evento execute() {
-		// TODO Auto-generated method stub
-		return new EventoError("Error en el proceso");
+		Evento evento;
+		if(!juego.estaEnHabitacionActual(id)){
+			juego.soltarId(id);
+			evento = new EventoObjetoSoltado(juego.getHabitacionActual(), juego.inventarioJugador());
+		}
+		else
+			evento = new EventoError("El objeto " + id + " ya existe en esta habitacion.");
+		
+		return evento;
 	}
+	
 }

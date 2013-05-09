@@ -31,6 +31,17 @@ public class Player {
 		this.inventarioPlayer = new Lista();
 	}
 	
+	public int getVida(){
+		return nivelVida;
+	}
+	
+	public int getPuntuacion(){
+		return puntuacion;
+	}
+	
+	public Lista getInventarioPlayer(){
+		return inventarioPlayer;
+	}
 	/**
 	 * Procedimiento que resta el nivel del jugador al cambiar de habitacion
 	 */
@@ -148,6 +159,16 @@ public class Player {
 	 */
 	public void borrarItem(String id) {
 		inventarioPlayer.borrarItem(id);
+	}
+
+	public void setPuntuacion(int puntuacion) {
+		// TODO Auto-generated method stub
+		this.puntuacion = puntuacion;
+	}
+
+	public void setVida(int vida) {
+		// TODO Auto-generated method stub
+		this.nivelVida = vida;
 	}
 	
 	/**

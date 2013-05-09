@@ -6,6 +6,7 @@ import lige.grupo03.pr4.VerbCommands;
 import lige.grupo03.pr4.modelo.Game;
 import lige.grupo03.pr4.modelo.eventos.Evento;
 import lige.grupo03.pr4.modelo.eventos.EventoError;
+import lige.grupo03.pr4.modelo.eventos.EventoObjetoCogido;
 
 /**
  * Clase que representa un Comando COGER
@@ -49,7 +50,20 @@ public class ComandoCoger extends Comando{
 	 */
 	@Override
 	public Evento execute() {
-		// TODO Auto-generated method stub
-		return new EventoError("Error en el proceso");
+		
+		Evento evento;
+		
+		if(juego.estaEnHabitacionActual(id))
+			if(juego.estaEnInventarioJugador(id))
+				evento = new EventoError("Este objeto ya esta en tu inventario");
+			else{
+				juego.cogerId(id);
+				evento = new EventoObjetoCogido(juego.getHabitacionActual(), juego.inventarioJugador());
+			}
+		else{
+			evento = new EventoError("Este objeto no se encuentra en esta habitacion");
+		}
+		return evento;	
+		
 	}
 }

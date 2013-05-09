@@ -63,7 +63,7 @@ public class Room {
 	Indica si la habitacion es una habitacion de salida.
 	@return boolean TRUE o FALSE segun sea el caso.
 	*/
-	public boolean getSalida(){
+	public boolean isSalida(){
 		return salida;
 	}
 	
@@ -105,6 +105,10 @@ public class Room {
 	 */
 	public Item cogerObjeto(String id){
 		return inventarioHabitacion.cogerObjeto(id);
+	}
+	
+	public String getDescripcion(){
+		return descripcion;
 	}
 
 	/**

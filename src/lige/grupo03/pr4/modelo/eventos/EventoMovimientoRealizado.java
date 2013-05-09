@@ -8,13 +8,15 @@ public class EventoMovimientoRealizado extends Evento{
 	
 	private Room habitacion;
 	private int vida;
+	private int puntuacion;
 	private Directions direccion;
 
-	public EventoMovimientoRealizado(Room habitacion, int vida, Directions direccion) {
+	public EventoMovimientoRealizado(Room habitacion, int vida, int puntuacion, Directions direccion) {
 		super(TipoEvento.EVENTO_MOVIMIENTO_REALIZADO);
 		this.habitacion = habitacion;
 		this.vida = vida;
 		this.direccion = direccion;
+		this.puntuacion = puntuacion;
 	}
 	
 	public Room getHabitacion(){
@@ -28,5 +30,14 @@ public class EventoMovimientoRealizado extends Evento{
 	public Directions getDireccion(){
 		return direccion;
 	}
+
+	/**
+	 * @return the puntuacion
+	 */
+	public int getPuntuacion() {
+		return puntuacion;
+	}
+
+
 
 }

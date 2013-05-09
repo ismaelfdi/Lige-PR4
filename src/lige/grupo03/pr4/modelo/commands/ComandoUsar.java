@@ -7,6 +7,7 @@ import lige.grupo03.pr4.VerbCommands;
 import lige.grupo03.pr4.modelo.Game;
 import lige.grupo03.pr4.modelo.eventos.Evento;
 import lige.grupo03.pr4.modelo.eventos.EventoError;
+import lige.grupo03.pr4.modelo.eventos.EventoObjetoUsado;
 
 /**
  * Clase que representa el Comando USAR
@@ -49,7 +50,14 @@ public class ComandoUsar extends Comando{
 	 */
 	@Override
 	public Evento execute() {
-		// TODO Auto-generated method stub
-		return new EventoError("Error en el proceso");
+		Evento evento;
+		int vidaAC = juego.vida();
+		int puntAC = juego.puntuacion();
+		juego.usarObjeto(id);
+		int vidaDC = juego.vida();
+		int puntDC = juego.puntuacion();
+		evento = new EventoObjetoUsado(juego.vida(), juego.puntuacion(), juego.inventarioJugador());
+		
+		return evento;
 	}
 }

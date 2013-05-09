@@ -92,6 +92,10 @@ public class PanelAcciones extends JPanel{
 		return txtId.getText();
 	}
 	
+	public void setText(){
+		txtId.setText("");
+	}
+	
 	private class OyenteBotonAccion implements ActionListener{
 
 		public OyenteBotonAccion(){
@@ -105,31 +109,46 @@ public class PanelAcciones extends JPanel{
 			
 			String nombreBoton = (String)e.getActionCommand();
 			Directions direccion = getSelectedItem();
-			String id = getText();
+			//String id = getText();
 			
 			if(nombreBoton.equals("COGER")){
-				if(!id.equals(""))
-					JOptionPane.showMessageDialog(new JFrame(), "COGER " + id );
-				
+				String idCoger = getText();
+				if(!idCoger.equals(""))
+				{
+					controlador.cogerObjeto(idCoger);
+					setText();
+				}
 				else
 					JOptionPane.showMessageDialog(new JFrame(), "Por favor ingresa el id del objeto" );
 			}
 			
-			if(nombreBoton.equals("IR"))
-				//JOptionPane.showMessageDialog(new JFrame(), "Has seleccionado el comando IR " + direccion.toString() );
+			//JOptionPane.showMessageDialog(new JFrame(), "Has seleccionado el comando IR " + direccion.toString() );
+			
+			if(nombreBoton.equals("IR")){
 				controlador.go(direccion);
+			}
+			
 			if(nombreBoton.equals("USAR")){
 				try {
-					String data = panel.getSelectedITem();
-					JOptionPane.showMessageDialog(new JFrame(), "USAR " + data );
+					String idUsar = panel.getSelectedITem();
+					controlador.usarObjeto(idUsar);
 				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(new JFrame(), "Selecciona un Objeto de tu inventario" );
+					JOptionPane.showMessageDialog(null, "Selecciona un objeto de tu inventario");
 				}
+				
+				
 				
 			}
 			
 			if(nombreBoton.equals("SOLTAR")){
-				JOptionPane.showMessageDialog(null, "Soltamos este objeto");
+				
+				try {
+					String idSoltar = panel.getSelectedITem();
+					controlador.soltar(idSoltar);
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "Selecciona el objeto a soltar");
+				}
+				
 			}
 		}
 
