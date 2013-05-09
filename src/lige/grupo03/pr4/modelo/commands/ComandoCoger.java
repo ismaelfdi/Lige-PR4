@@ -55,13 +55,13 @@ public class ComandoCoger extends Comando{
 		
 		if(juego.estaEnHabitacionActual(id))
 			if(juego.estaEnInventarioJugador(id))
-				evento = new EventoError("Este objeto ya esta en tu inventario");
+				evento = new EventoError("El objeto " + id + " ya esta en tu inventario");
 			else{
 				juego.cogerId(id);
 				evento = new EventoObjetoCogido(juego.getHabitacionActual(), juego.inventarioJugador());
 			}
 		else{
-			evento = new EventoError("Este objeto no se encuentra en esta habitacion");
+			evento = new EventoError("El objeto " + id + "no se encuentra en esta habitacion");
 		}
 		return evento;	
 		

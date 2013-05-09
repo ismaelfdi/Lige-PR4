@@ -47,6 +47,7 @@ public class ViewGUI extends JFrame implements Observer{
 	private TipoJugador tipoJugador;
 	private ModoJuego modoJuego;
 	private JSplitPane jspControl;
+	
 	public ViewGUI(Controller controller){
 		super("Aventura conversacional GUI");
 		this.controller = controller;
@@ -70,32 +71,59 @@ public class ViewGUI extends JFrame implements Observer{
 		panelHabitacion.removeAll();
 		mapa.removeAll();
 		
-		/*
-		this.remove(jspControl);
-		this.remove(mapa);
-		this.remove(panelHabitacion);
-		*/
 		this.getContentPane().removeAll();
 		p2.updateUI();
 		p1.updateUI();
 		panelHabitacion.updateUI();
 		mapa.updateUI();
 		this.update(getGraphics());
-		
-		if(tipoJugador == TipoJugador.JUGADOR_IA);
-			//controller.finIA(); AQui reseteamos el modo IA
+	}
+	
+	public void setModoJuego(ModoJuego modo) {
+		this.modoJuego  = modo;	
+	}
+	
+	/**MÃ©todo mostrarPuntuaciÃ³n
+	 * Muestra por pantalla un mensaje con la puntuaciÃ³n final
+	 * de la partida.	 
+	 * @param puntuacion puntuaciÃ³n de la partida.
+	 * @return nada
+	 */
+	public void mostrarPuntuaciones(float puntuacion)
+	{
+		JOptionPane.showMessageDialog(null, "Puntuacion Final: "+puntuacion);
+	}
+	
+	
+	/**MÃ©todo pedirJugarOtra
+	 * Pregunta al usuario si desea jugar otra partida
+	 * @param nada
+	 * @return Booleano con la respuesta del usuario
+	 */
+	public boolean pedirJugarOtra()
+	{	
+		int seleccion = JOptionPane.showOptionDialog(
+				   this,
+				   "�Desea jugar otra partida?", 
+				   "",
+				   JOptionPane.YES_NO_OPTION,
+				   JOptionPane.QUESTION_MESSAGE,
+				   null,
+				   new Object[] { "Sí", "No" },
+				   "Sí");
+		if(seleccion==0)
+			return true;
+		else
+			return false;
 	}
 	
 	private void comenzarPartida(){
 		controller.solicitaIniciarPartida();
-		if(tipoJugador == TipoJugador.JUGADOR_IA);
-			//controller.juegoIA();//Aqui iniciamos el juego en modo IA
 	}
 
 	
 	@Override
 	public void update(Observable modelo, Object ev) {
-		// TODO Auto-generated method stub
 		
 		Evento evento = (Evento)ev;
 		
@@ -134,10 +162,7 @@ public class ViewGUI extends JFrame implements Observer{
 		
 		default:
 			break;
-		}
-		
-		
-		
+		}	
 	}
 	
 	private void procesarObjetoSoltado(Evento evento) {
@@ -183,7 +208,7 @@ public class ViewGUI extends JFrame implements Observer{
 		panelHabitacion.actualizarEstado(evMovRealizado.getHabitacion());
 	}
 	
-	private void procesarError(Evento evento) {
+	public void procesarError(Evento evento) {
 		EventoError eventoError = (EventoError)evento;
 		
 		JOptionPane.showMessageDialog(null, eventoError.getErrorProducido());
@@ -204,12 +229,9 @@ public class ViewGUI extends JFrame implements Observer{
 		panelHabitacion.actualizarEstado(evObjetoCogido.getHabitacion());
 	}
 	
-	private void procesarMovimientoRealizado(Evento evento) {
-		EventoMovimientoRealizado eventoMovimientoRealizado = (EventoMovimientoRealizado)evento;	
-	}
-	
 	private void procesarPartidaFinalizada(Evento evento) {
-		EventoPartidaFinalizada eventoPartidaFinalizada = (EventoPartidaFinalizada)evento;
+		EventoPartidaFinalizada evPartidaFinalizada = (EventoPartidaFinalizada)evento;
+		p2.actualizarEstado(evPartidaFinalizada.getVida(), evPartidaFinalizada.getPuntuacion());
 		
 	}
 
@@ -329,6 +351,8 @@ public class ViewGUI extends JFrame implements Observer{
 		
 		
 	}
+
+
 	
 	
 	

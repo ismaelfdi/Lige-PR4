@@ -281,7 +281,7 @@ public class Game extends Observable{
 
 	public void cambiarHabitacion(Directions direccion){
 
-		String mensaje = "...moviéndonos al " + direccion.toString() + "\n";	
+			
 		Door puerta = m.devolverPuerta(habitacionActual, direccion);
 
 		habitacionActual = puerta.nextRoom(habitacionActual);
